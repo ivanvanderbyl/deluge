@@ -35,6 +35,28 @@ export default Ember.Component.extend(Registry, ControlState, KeyBindings, {
     'esc': 'close',
   },
 
+  didInsertElement() {
+    this.addGlobalEventHandlers();
+  },
+
+  willDestroyElement() {
+    this.removeGlobalEventHandlers();
+  },
+
+  addGlobalEventHandlers() {
+    document.addEventListener('click', this.handleRootClick.bind(this));
+  },
+
+  removeGlobalEventHandlers() {
+    document.removeEventListener('click', this.handleRootClick.bind(this));
+  },
+
+  handleRootClick(event) {
+    if (!this.element.contains(event.target)) {
+      this.close();
+    }
+  },
+
   /**
    * Indicates the currently selected items, by value.
    *
@@ -55,15 +77,15 @@ export default Ember.Component.extend(Registry, ControlState, KeyBindings, {
     menuButton.send('close');
   },
 
-  focusOut() {
-    const button = this.get('button');
-    if (!button) { return; }
-    Ember.run.next(this, function(){
-      if (button.$().has(document.activeElement).length === 0) {
-        button.send("close");
-      }
-    });
-  },
+  // focusOut() {
+  //   const button = this.get('button');
+  //   if (!button) { return; }
+  //   Ember.run.next(this, function(){
+  //     if (button.$().has(document.activeElement).length === 0) {
+  //       button.send("close");
+  //     }
+  //   });
+  // },
 
   actions: {
     itemSelected(values) {
