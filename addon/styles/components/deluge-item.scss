@@ -1,0 +1,75 @@
+$deluge-item-min-height: 48px !default;
+$deluge-item-body-two-line-min-height: 72px !default;
+$deluge-item-body-three-line-min-height: 88px !default;
+
+.deluge-item {
+  display: block;
+  min-height: $deluge-item-min-height;
+  // line-height: $deluge-item-min-height;
+  padding: 0px 16px;
+
+  font-family: 'Roboto', 'Noto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+
+  @extend ".deluge-font-subhead";
+
+  &.is-selected {
+    font-weight: bold;
+  }
+
+  &[disabled] {
+    color: $disabled-text-color;
+  }
+
+  &:focus {
+    position: relative;
+    outline: 0;
+
+    &:before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      content: '';
+      background: currentColor;
+      opacity: $dark-divider-opacity;
+      pointer-events: none;
+    }
+  }
+
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+
+  cursor: pointer;
+
+  .deluge-item-body {
+    min-height: $deluge-item-min-height;
+
+    &> * {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &[disabled] {
+    pointer-events: none;
+  }
+
+  [two-line] {
+    min-height: $deluge-item-body-two-line-min-height;
+  }
+
+  [secondary] {
+    line-height: 20px;
+    color: $secondary-text-color;
+    @extend ".deluge-font-body1";
+    // @apply(--paper-item-body-secondary);
+  }
+}

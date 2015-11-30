@@ -1,12 +1,41 @@
-# Deluge
+# Deluge UI
 
-This README outlines the details of collaborating on this Ember addon.
+Deluge UI is an implementation of core UI components which conform to the Google
+Material guidelines.
 
 ## Installation
 
 * `git clone` this repository
 * `npm install`
 * `bower install`
+
+# Components
+
+## `deluge-menu-button`
+
+A generic button which opens and closes a disclosed content box. This is used to
+implement a dropdown menu and dropdown panel.
+
+```hbs
+{{#deluge-menu-button as |button|}}
+  Dropdown Content
+{{else}}
+  Button Label
+{{/deluge-menu-button}}
+```
+
+If you use it with the `deluge-dropdown` it will gain some useful behaviours, including
+the ability to close when losing focus, and respond to keyboard shortcuts like `esc`.
+
+```hbs
+{{#deluge-menu-button as |button|}}
+  {{#deluge-dropdown close=button.close}}
+    Dropdown Content
+  {{/deluge-dropdown}}
+{{else}}
+  Button Label
+{{/deluge-menu-button}}
+```
 
 ## Running
 

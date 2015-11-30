@@ -1,0 +1,16 @@
+<button class="trigger" onclick={{action "toggle"}} disabled={{disabled}}>
+  {{#if (hasBlock "inverse")}}
+    {{yield to="inverse"}}
+  {{else}}
+    {{label}}
+  {{/if}}
+</button>
+
+{{#if isOpen}}
+  {{#ember-tether
+    targetAttachment=dropdownAlignment
+    attachment=dropdownAttachment
+    target=dropdownTarget}}
+    {{yield publicAPI}}
+  {{/ember-tether}}
+{{/if}}

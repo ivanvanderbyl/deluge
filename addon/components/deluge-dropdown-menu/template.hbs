@@ -1,0 +1,13 @@
+{{#deluge-menu-button
+  disabled=disabled
+  ignoreSelect=ignoreSelect
+  selection=selection
+  as |button|}}
+  {{yield selection}}
+{{else}}
+  {{#if (hasBlock "inverse")}}
+    {{yield to="invserse"}}
+  {{else}}
+    {{label}}
+  {{/if}}
+{{/deluge-menu-button}}

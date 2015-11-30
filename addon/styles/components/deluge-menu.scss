@@ -1,0 +1,60 @@
+.shadow-transition {
+  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.shadow-elevation-2dp {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+              0 1px 5px 0 rgba(0, 0, 0, 0.12),
+              0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+deluge-dropdown-menu {
+  deluge-menu {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+              0 1px 5px 0 rgba(0, 0, 0, 0.12),
+              0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  }
+}
+
+deluge-menu {
+  display: block;
+  padding: 8px 0;
+  background: $primary-background-color;
+  color: $primary-text-color;
+
+  outline: none;
+
+  hr {
+    height: 1px;
+    border: none;
+    background: $divider-color;
+  }
+}
+
+// .selectable-content > .iron-selected {
+//   font-weight: bold;
+//   // @apply(--paper-menu-selected-item);
+// }
+// .selectable-content > [disabled] {
+//   color: var(--paper-menu-disabled-color, --disabled-text-color);
+// }
+// .selectable-content > *:focus {
+//   position: relative;
+//   outline: 0;
+//   // @apply(--paper-menu-focused-item);
+// }
+// .selectable-content > *:focus:after {
+//   // fit
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   bottom: 0;
+//   left: 0;
+//   // @apply(--layout-fit);
+//   background: currentColor;
+//   opacity: var(--dark-divider-opacity);
+//   content: '';
+//   // @apply(--paper-menu-focused-item-after);
+// }
+// .selectable-content > *[colored]:focus:after {
+//   opacity: 0.26;
+// }
