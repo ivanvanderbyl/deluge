@@ -92,11 +92,11 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   didInitAttrs() {
     this.set('publicAPI', {
       isOpen: false,
-      actions: {
-        open: this.open.bind(this),
-        close: this.close.bind(this),
-        toggle: this.toggle.bind(this),
-      }
+      // actions: {
+      //   open: this.open.bind(this),
+      //   close: this.close.bind(this),
+      //   toggle: this.toggle.bind(this),
+      // }
     });
   },
 
