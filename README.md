@@ -3,7 +3,7 @@
 Deluge UI is an implementation of core UI components which conform to the Google
 Material guidelines.
 
-[![Build Status](https://travis-ci.org/ivanvanderbyl/deluge.svg)](https://travis-ci.org/ivanvanderbyl/deluge)
+[![Build Status](https://travis-ci.org/ivanvanderbyl/deluge.svg?branch=master)](https://travis-ci.org/ivanvanderbyl/deluge)
 
 ## Installation
 
