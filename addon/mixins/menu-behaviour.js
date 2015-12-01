@@ -19,6 +19,7 @@ export default Ember.Mixin.create({
     while (menuItems.objectAt(index).get('disabled')) {
       offset++;
       index = (focusIndex - offset + length) % length;
+      if (offset > length) { break; }
     }
 
     this.focusItemAt(index);
@@ -26,6 +27,9 @@ export default Ember.Mixin.create({
 
   /**
    * Selects the next item.
+   *
+   * If the next item is disabled it recurses the entire list to find the next
+   * enabled item.
    *
    * @method selectNext
    */
@@ -41,6 +45,7 @@ export default Ember.Mixin.create({
     while (menuItems.objectAt(index).get('disabled')) {
       offset++;
       index = (focusIndex + offset) % length;
+      if (offset > length) { break; }
     }
 
     this.focusItemAt(index);
@@ -49,13 +54,6 @@ export default Ember.Mixin.create({
   focusItemAt(index) {
     this.set('focusIndex', index);
     let item = this.get('menuItems').objectAt(index);
-
-    // if (item.get('disabled')) {
-    //   this.selectNext();
-    //   return;
-    // }
-
     if (!item.get('hasFocus') && item.element) { item.element.focus(); }
-    console.log('focusItemAt', index);
   },
 });

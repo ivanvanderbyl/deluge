@@ -5,7 +5,7 @@ import Registerable from '../../mixins/registerable';
 import KeyBindings from '../../mixins/key-bindings';
 import ControlState from '../../mixins/control-state';
 
-const { computed, run } = Ember;
+const { inject, computed, run } = Ember;
 
 export default Ember.Component.extend(ControlState, Registerable, Registry, KeyBindings, {
   layout: layout,
@@ -13,6 +13,9 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   classNames: ['deluge-menu-button'],
 
   classNameBindings: ['isOpen'],
+
+  delugeDropdownService: inject.service('deluge-dropdown'),
+  destinationElementId: computed.oneWay('delugeDropdownService.destinationElementId'),
 
   /**
    * Indicated that the component is in the open state. This property is applied
@@ -52,6 +55,10 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
 
   registerableType: 'button',
 
+  horizontalOffset: 0,
+
+  verticalOffset: 0,
+
   attributeBindings: [
     // Applies ARIA-HasPopup
     'hasPopUp:aria-haspopup',
@@ -87,6 +94,83 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
 
   dropdownTarget: computed('elementId', function() {
     return `#${this.get('elementId')} button.trigger`;
+  }),
+
+  didInsertElement() {
+    this.addGlobalEventHandlers();
+  },
+
+  willDestroyElement() {
+    this.removeGlobalEventHandlers();
+  },
+
+  addGlobalEventHandlers() {
+    window.addEventListener('scroll', this.handleRepositioningEvent.bind(this));
+    window.addEventListener('resize', this.handleRepositioningEvent.bind(this));
+
+    // document.addEventListener('click', this.handleRootClick.bind(this));
+  },
+
+  removeGlobalEventHandlers() {
+    window.removeEventListener('scroll', this.handleRepositioningEvent);
+    window.removeEventListener('resize', this.handleRepositioningEvent);
+    // document.removeEventListener('click', this.handleRootClick.bind(this));
+  },
+
+  handleRepositioningEvent() {
+    run.throttle(this, 'repositionDropdownContent', 60, true);
+  },
+
+  _positionRect: computed(function() {
+    return this.element.getBoundingClientRect();
+  }).volatile(),
+
+  /**
+   * The horizontal offset value used to position the dropdown.
+   */
+  _horizontalAlignTargetValue: computed(function() {
+    const { right, left } = this.get('_positionRect');
+    let target;
+
+    if (this.get('horizontalAlign') === 'right') {
+      target = document.documentElement.clientWidth - right;
+    } else {
+      target = left;
+    }
+    target += this.get('horizontalOffset');
+    return Math.max(target, 0);
+  }),
+
+  /**
+   * The vertical offset value used to position the dropdown.
+   */
+  _verticalAlignTargetValue: computed(function() {
+    const { bottom, top } = this.get('_positionRect');
+    let target;
+
+    if (this.get('verticalAlign') === 'bottom') {
+      target = document.documentElement.clientHeight - bottom;
+    } else {
+      target = top;
+    }
+    target += this.get('verticalOffset');
+    return Math.max(target, 0);
+  }),
+
+  computedPositionStyle: Ember.computed('color', function() {
+    const { horizontalAlign, verticalAlign } = this.getProperties('horizontalAlign', 'verticalAlign');
+    const { _horizontalAlignTargetValue: horizontal, _verticalAlignTargetValue: vertical } = this.getProperties('_horizontalAlignTargetValue', '_verticalAlignTargetValue');
+    let styleObject = {
+      position: 'absolute',
+    };
+    styleObject[horizontalAlign] = horizontal + 'px';
+    styleObject[verticalAlign] = vertical + 'px';
+
+    let styles = Object.keys(styleObject).map((name) => {
+      return `${name}:${styleObject[name]}`;
+    }).join(';');
+
+    return new Ember.Handlebars.SafeString(styles);
   }),
 
   didInitAttrs() {
@@ -148,8 +232,12 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
     }
   },
 
+  triggerElement: computed('element', function() {
+    return this.element.querySelector('.trigger');
+  }),
+
   focusTrigger() {
-    const trigger = this.element.querySelector('.trigger');
+    const trigger = this.get('triggerElement');
     if (trigger.tabIndex > -1) {
       trigger.focus();
     }
@@ -166,6 +254,13 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
     if (!this.get('ignoreSelect')) {
       this.close();
     }
+  },
+
+  repositionDropdownContent() {
+    const trigger = this.get('triggerElement');
+    let { left, top: topWithoutScroll, width, height } = trigger.getBoundingClientRect();
+
+    console.log(left, topWithoutScroll, width, height);
   },
 
   actions: {

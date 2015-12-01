@@ -6,7 +6,11 @@ import MenuBehaviour from '../../mixins/menu-behaviour';
 import ControlState from '../../mixins/control-state';
 import KeyBindings from '../../mixins/key-bindings';
 
-const { computed, run: { next } } = Ember;
+const { computed, isEmpty } = Ember;
+
+function afterRender() {
+  Ember.run.schedule('afterRender', ...arguments);
+}
 
 export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, Registerable, Registry, {
   layout: layout,
@@ -20,7 +24,13 @@ export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, 
    */
   selectedItems: Ember.A(),
 
-  focussedItem: null,
+  /**
+   * References the first selected Item. This is useful when not doing multiple
+   * selects and you need the absolute item.
+   *
+   * @type {DelugeMenuItem}
+   */
+  selectedItem: computed.oneWay('selectedItems.firstObject'),
 
   /**
    * Indicates whether to accept multiple selection of single selection of items.
@@ -29,11 +39,13 @@ export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, 
    */
   multiple: false,
 
+  /**
+   * Init: Reset values so they aren't shared across instances.
+   */
   init() {
     this._super(...arguments);
     this.set('selectedItems', Ember.A());
     this.set('menuItems', Ember.A());
-    this.set('focussedItem', null);
     this.set('focusIndex', -1);
   },
 
@@ -67,14 +79,22 @@ export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, 
     up: 'selectPrevious',
   },
 
+  /**
+   * Menu items registered once we render
+   *
+   * @type {Array}
+   */
   menuItems: Ember.A(),
 
   focusIn() {
-    next(this, function() {
+    afterRender(this, function() {
       let menuItems = this.get('menuItems');
-      let focusIndex = this.get('focusIndex');
+
+      if (isEmpty(menuItems)) { return; }
+
+      let focusIndex = this.get('selectedIndex');
       if (!menuItems.objectAt(focusIndex)) {
-        menuItems.get('firstObject').element.focus();
+        this.selectNext();
       }else{
         menuItems.objectAt(focusIndex).element.focus();
       }
@@ -85,8 +105,8 @@ export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, 
     this.set('focusIndex', this.get('selectedIndex'));
   },
 
-  selectedIndex: computed('selectedItems.[]', 'menuItems.[]', function() {
-    return this.get('menuItems').indexOf(this.get('selectedItems.lastObject'));
+  selectedIndex: computed('selectedItem', 'menuItems.[]', function() {
+    return this.get('menuItems').indexOf(this.get('selectedItem'));
   }),
 
   selectedItemValues: computed('selectedItems.[]', function() {

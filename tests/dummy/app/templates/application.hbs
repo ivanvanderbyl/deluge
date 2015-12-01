@@ -82,6 +82,19 @@
       {{deluge-item label="Item 5" value="5"}}
     {{/deluge-menu}}
   </div>
+
+  <div role="list" class="list">
+    {{#deluge-menu
+      multiple=allowMultiple
+      selected=primarySelectedItem
+      selection-changed=(action "primaryAction") as |menu|}}
+      {{deluge-item label="Item 2" value="2" disabled=false}}
+      {{deluge-item label="Item 1" value="1" disabled=true}}
+      {{deluge-item label="Item 3" value="3" disabled=false}}
+      {{deluge-item label="Item 4" value="4" disabled=true}}
+      {{deluge-item label="Item 5" value="5"}}
+    {{/deluge-menu}}
+  </div>
 </div>
 
 <div class="Group">

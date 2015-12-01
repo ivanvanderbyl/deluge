@@ -1,4 +1,4 @@
-<button class="trigger" onclick={{action "toggle"}} disabled={{disabled}}>
+<button tabindex={{tabIndex}} class="trigger" onclick={{action "toggle"}} disabled={{disabled}}>
   {{#if (hasBlock "inverse")}}
     {{yield to="inverse"}}
   {{else}}
@@ -7,10 +7,10 @@
 </button>
 
 {{#if isOpen}}
-  {{#ember-tether
-    targetAttachment=dropdownAlignment
-    attachment=dropdownAttachment
-    target=dropdownTarget}}
-    {{yield publicAPI}}
-  {{/ember-tether}}
+  {{#ember-wormhole
+    to=destinationElementId
+    renderInPlace=renderInPlace
+  }}
+    <deluge-menu-button-content style={{computedPositionStyle}}>{{yield publicAPI}}</deluge-menu-button-content>
+  {{/ember-wormhole}}
 {{/if}}
