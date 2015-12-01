@@ -5,27 +5,8 @@ moduleForComponent('deluge-menu', 'Integration | Component | deluge menu', {
   integration: true
 });
 
-// test('it renders', function(assert) {
-
-//   // Set any properties with this.set('myProperty', 'value');
-//   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-
-//   this.render(hbs`{{deluge-menu}}`);
-
-//   assert.equal(this.$().text().trim(), '');
-
-//   // Template block usage:" + EOL +
-//   this.render(hbs`
-//     {{#deluge-menu}}
-//       template block text
-//     {{/deluge-menu}}
-//   `);
-
-//   assert.equal(this.$().text().trim(), 'template block text');
-// });
-
 const menuTemplate = hbs`
-  {{#deluge-menu item-selected="itemSelected" as |menu|}}
+  {{#deluge-menu action="itemSelected" as |menu|}}
     {{deluge-item label="Item 1" value="1"}}
     {{deluge-item label="Item 2" value="2"}}
     {{deluge-item label="Item 3" value="3" disabled=true}}

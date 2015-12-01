@@ -69,9 +69,7 @@ export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, 
 
   menuItems: Ember.A(),
 
-  focusIn(event) {
-    // console.log('menu focus in', this.get('menuItems.firstObject.elementId'));
-
+  focusIn() {
     next(this, function() {
       let menuItems = this.get('menuItems');
       let focusIndex = this.get('focusIndex');
@@ -146,7 +144,7 @@ export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, 
       });
 
       this.set('selectedItems', nextSelection);
-      console.log('set menu items by value', nextSelection.map((item) => item.get('value')));
+      // console.log('set menu items by value', nextSelection.map((item) => item.get('value')));
     }
   }
 });

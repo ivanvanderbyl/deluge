@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import RegistryMixin from '../../../mixins/registry';
+import RegistryMixin from 'deluge/mixins/registry';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | registry');

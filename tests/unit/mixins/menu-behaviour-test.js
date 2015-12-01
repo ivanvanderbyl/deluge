@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import MenuBehaviourMixin from '../../../mixins/menu-behaviour';
+import MenuBehaviourMixin from 'deluge/mixins/menu-behaviour';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | menu behaviour');

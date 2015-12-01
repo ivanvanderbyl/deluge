@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import KeyBindingsMixin from '../../../mixins/key-bindings';
+import KeyBindingsMixin from 'deluge/mixins/key-bindings';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | key bindings');

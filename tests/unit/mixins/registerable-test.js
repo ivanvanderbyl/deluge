@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import RegisterableMixin from '../../../mixins/registerable';
+import RegisterableMixin from 'deluge/mixins/registerable';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | registerable');

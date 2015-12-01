@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ControlStateMixin from '../../../mixins/control-state';
+import ControlStateMixin from 'deluge/mixins/control-state';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | control state');

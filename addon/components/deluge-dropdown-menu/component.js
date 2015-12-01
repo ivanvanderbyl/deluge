@@ -4,6 +4,8 @@ import Registry from '../../mixins/registry';
 import ControlState from '../../mixins/control-state';
 import KeyBindings from '../../mixins/key-bindings';
 
+const { run: { later }} = Ember;
+
 export default Ember.Component.extend(Registry, ControlState, KeyBindings, {
   layout: layout,
 
@@ -52,7 +54,7 @@ export default Ember.Component.extend(Registry, ControlState, KeyBindings, {
   },
 
   handleRootClick(event) {
-    if (!this.element.contains(event.target)) {
+    if (this.element && !this.element.contains(event.target)) {
       this.close();
     }
   },
@@ -77,31 +79,24 @@ export default Ember.Component.extend(Registry, ControlState, KeyBindings, {
     menuButton.send('close');
   },
 
-  // focusOut() {
-  //   const button = this.get('button');
-  //   if (!button) { return; }
-  //   Ember.run.next(this, function(){
-  //     if (button.$().has(document.activeElement).length === 0) {
-  //       button.send("close");
-  //     }
-  //   });
-  // },
+  click({target}) {
+    if (target === this.element) {
+      this.open();
+    }
+  },
 
   actions: {
+    open() {
+      this.open();
+    },
+
     itemSelected(values) {
-      console.log('[dropdown-menu] item selected', values);
-
       this.sendAction('selection-changed', values);
-
-      Ember.run.later(this, this.close, 125);
+      later(this, this.close, 125);
     },
 
     registerButton(buttonComponent) {
       this.set('button', buttonComponent);
-
-      console.log('>',this.get('selection'));
-
-      // buttonComponent.set('selection', this.get('selection'));
     },
 
     deregisterButton() {

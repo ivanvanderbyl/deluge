@@ -34,9 +34,9 @@ test('rendering multiple lines', function(assert) {
 
 test('clicking item triggers action', function(assert) {
   assert.expect(2);
-  this.on('primaryAction', function(value) {
+  this.on('primaryAction', function(item) {
     assert.ok('primaryAction was triggered');
-    assert.equal(value, 1);
+    assert.equal(item.get('value'), 1);
   });
 
   this.render(hbs`{{deluge-item label="Test Item 1" value="1" action="primaryAction"}}`);
