@@ -159,12 +159,12 @@ export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, 
     },
 
     selectItemsByValue(newSelection) {
+      if (isEmpty(newSelection)) { return; }
       let nextSelection = this.get('menuItems').filter((item) => {
         return newSelection.indexOf(item.get('value')) > -1;
       });
 
       this.set('selectedItems', nextSelection);
-      // console.log('set menu items by value', nextSelection.map((item) => item.get('value')));
     }
   }
 });
