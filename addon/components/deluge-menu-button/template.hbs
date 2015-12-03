@@ -7,10 +7,12 @@
 </button>
 
 {{#if isOpen}}
-  {{#ember-wormhole
-    to=destinationElementId
+  {{#ember-tether
+    target=dropdownTarget
+    targetAttachment='top left'
+    attachment='top left'
     renderInPlace=renderInPlace
   }}
     <deluge-menu-button-content style={{computedPositionStyle}}>{{yield publicAPI}}</deluge-menu-button-content>
-  {{/ember-wormhole}}
+  {{/ember-tether}}
 {{/if}}

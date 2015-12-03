@@ -163,8 +163,8 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
     let styleObject = {
       position: 'absolute',
     };
-    styleObject[horizontalAlign] = horizontal + 'px';
-    styleObject[verticalAlign] = vertical + 'px';
+    // styleObject[horizontalAlign] = horizontal + 'px';
+    // styleObject[verticalAlign] = vertical + 'px';
 
     let styles = Object.keys(styleObject).map((name) => {
       return `${name}:${styleObject[name]}`;
