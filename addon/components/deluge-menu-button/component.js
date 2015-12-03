@@ -18,6 +18,20 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   destinationElementId: computed.oneWay('delugeDropdownService.destinationElementId'),
 
   /**
+   * Dropdown attachment basis.
+   *
+   * @type {String}
+   */
+  triggerAttachment: 'top left',
+
+  /**
+   * Attachement for the dropdown relative to triggerAttachment
+   *
+   * @type {String}
+   */
+  dropdownAttachment: 'top left',
+
+  /**
    * Indicated that the component is in the open state. This property is applied
    * to all sub-components.
    *

@@ -9,8 +9,8 @@
 {{#if isOpen}}
   {{#ember-tether
     target=dropdownTarget
-    targetAttachment='top left'
-    attachment='top left'
+    targetAttachment=triggerAttachment
+    attachment=dropdownAttachment
     renderInPlace=renderInPlace
   }}
     <deluge-menu-button-content style={{computedPositionStyle}}>{{yield publicAPI}}</deluge-menu-button-content>
