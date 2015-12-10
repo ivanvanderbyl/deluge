@@ -4,6 +4,7 @@ import Registry from '../../mixins/registry';
 import Registerable from '../../mixins/registerable';
 import KeyBindings from '../../mixins/key-bindings';
 import ControlState from '../../mixins/control-state';
+import computedStyle from 'ember-computed-style';
 
 const { inject, computed, run } = Ember;
 
@@ -16,6 +17,8 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
 
   delugeDropdownService: inject.service('deluge-dropdown'),
   destinationElementId: computed.oneWay('delugeDropdownService.destinationElementId'),
+
+  renderInPlace: false,
 
   /**
    * Dropdown attachment basis.
@@ -171,20 +174,18 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
     return Math.max(target, 0);
   }),
 
-  computedPositionStyle: Ember.computed('color', function() {
+  computedPositionStyle: computedStyle('positionStyles'),
+
+  positionStyles: Ember.computed(function() {
     const { horizontalAlign, verticalAlign } = this.getProperties('horizontalAlign', 'verticalAlign');
     const { _horizontalAlignTargetValue: horizontal, _verticalAlignTargetValue: vertical } = this.getProperties('_horizontalAlignTargetValue', '_verticalAlignTargetValue');
     let styleObject = {
       position: 'absolute',
     };
-    // styleObject[horizontalAlign] = horizontal + 'px';
-    // styleObject[verticalAlign] = vertical + 'px';
+    styleObject[horizontalAlign] = horizontal;
+    styleObject[verticalAlign] = vertical;
 
-    let styles = Object.keys(styleObject).map((name) => {
-      return `${name}:${styleObject[name]}`;
-    }).join(';');
-
-    return new Ember.Handlebars.SafeString(styles);
+    return styleObject;
   }),
 
   didInitAttrs() {
@@ -210,17 +211,17 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
     }
   }),
 
-  dropdownAttachment: computed('verticalAlign', 'horizontalAlign', {
-    get() {
-      let verticalAlign = this.get('verticalAlign');
-      let horizontalAlign = this.get('horizontalAlign');
-      if (verticalAlign === 'top') {
-        return `bottom ${horizontalAlign}`;
-      }else{
-        return `top ${horizontalAlign}`;
-      }
-    }
-  }),
+  // dropdownAttachment: computed('verticalAlign', 'horizontalAlign', {
+  //   get() {
+  //     let verticalAlign = this.get('verticalAlign');
+  //     let horizontalAlign = this.get('horizontalAlign');
+  //     if (verticalAlign === 'top') {
+  //       return `bottom ${horizontalAlign}`;
+  //     }else{
+  //       return `top ${horizontalAlign}`;
+  //     }
+  //   }
+  // }),
 
   touchEnd() {
     this.open();
