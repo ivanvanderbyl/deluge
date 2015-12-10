@@ -177,13 +177,17 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   computedPositionStyle: computedStyle('positionStyles'),
 
   positionStyles: Ember.computed(function() {
-    const { horizontalAlign, verticalAlign } = this.getProperties('horizontalAlign', 'verticalAlign');
-    const { _horizontalAlignTargetValue: horizontal, _verticalAlignTargetValue: vertical } = this.getProperties('_horizontalAlignTargetValue', '_verticalAlignTargetValue');
+    // const { horizontalAlign, verticalAlign } = this.getProperties('horizontalAlign', 'verticalAlign');
+    // const { _horizontalAlignTargetValue: horizontal, _verticalAlignTargetValue: vertical } = this.getProperties('_horizontalAlignTargetValue', '_verticalAlignTargetValue');
+    // let styleObject = {
+    //   position: 'absolute',
+    // };
+    // styleObject[horizontalAlign] = horizontal;
+    // styleObject[verticalAlign] = vertical;
+
     let styleObject = {
-      position: 'absolute',
+      width: Math.ceil(this.get('_positionRect').width),
     };
-    styleObject[horizontalAlign] = horizontal;
-    styleObject[verticalAlign] = vertical;
 
     return styleObject;
   }),
