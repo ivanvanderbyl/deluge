@@ -135,7 +135,7 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   },
 
   handleRepositioningEvent() {
-    run.throttle(this, 'repositionDropdownContent', 60, true);
+    // run.throttle(this, 'repositionDropdownContent', 60, true);
   },
 
   _positionRect: computed(function() {
@@ -279,7 +279,7 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
     const trigger = this.get('triggerElement');
     let { left, top: topWithoutScroll, width, height } = trigger.getBoundingClientRect();
 
-    console.log(left, topWithoutScroll, width, height);
+    // console.log(left, topWithoutScroll, width, height);
   },
 
   actions: {
