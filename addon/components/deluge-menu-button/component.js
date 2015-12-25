@@ -137,9 +137,12 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   },
 
   handleRepositioningEvent() {
-    run(this, function() {
-      Tether.position();
-    });
+    if (this.get('isOpen')) {
+      run.next(this, function() {
+        console.log('Tether.position');
+        Tether.position();
+      });
+    }
 
     // run.throttle(this, 'repositionDropdownContent', 60, true);
   },
