@@ -1,3 +1,5 @@
+/* global Tether */
+
 import Ember from 'ember';
 import layout from './template';
 import Registry from '../../mixins/registry';
@@ -135,6 +137,9 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   },
 
   handleRepositioningEvent() {
+    Ember.run.schedule('afterRender', function() {
+      Tether.position();
+    });
     // run.throttle(this, 'repositionDropdownContent', 60, true);
   },
 
@@ -239,6 +244,7 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   open() {
     if (this.get('disabled')) { return; }
     this.set('isOpen', true);
+    this.handleRepositioningEvent();
   },
 
   close() {
@@ -325,7 +331,6 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
      * sending the necessary actions to the parent template.
      */
     itemSelected(item) {
-      console.log('[button] selected item', item);
       this.didSelect(item);
     },
 
