@@ -97,7 +97,12 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
    *
    * @type {Number}
    */
-  verticalOffset: 0,
+  verticalOffset: computed('_positionRect', {
+    get() {
+      const { height } = this.get('_positionRect');
+      return height;
+    }
+  }),
 
   /**
    * Set to true to disable automatically closing the dropdown after
