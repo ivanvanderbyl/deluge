@@ -174,14 +174,14 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
    *
    * @return {PositionRect}
    */
-  _positionRect: computed('element', 'positionTarget', function() {
+  _positionRect: computed('positionTarget', function() {
     const positionTarget = this.get('positionTarget');
     if (isPresent(positionTarget)) {
       return this.element.querySelector(positionTarget).getBoundingClientRect();
     }else{
       return this.element.getBoundingClientRect();
     }
-  }),
+  }).volatile(),
 
   /**
    * The horizontal offset value used to position the dropdown.
@@ -220,8 +220,6 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   positionStyles: Ember.computed(function() {
     const { horizontalAlign, verticalAlign } = this.getProperties('horizontalAlign', 'verticalAlign');
     const { _horizontalAlignTargetValue: horizontal, _verticalAlignTargetValue: vertical } = this.getProperties('_horizontalAlignTargetValue', '_verticalAlignTargetValue');
-    // let styleObject = {
-    // };
 
     let styleObject = {
       position: 'absolute',
