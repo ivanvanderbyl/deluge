@@ -8,12 +8,12 @@
 
 {{#if isOpen}}
   {{#ember-wormhole to=destinationElementId renderInPlace=renderInPlace}}
-    {{#ember-tether
+    {{!-- {{#ember-tether
       target=dropdownTarget
       targetAttachment="bottom left"
       attachment="top left"
-    }}
+    }} --}}
       <div style={{computedPositionStyle}} class="deluge-menu-button-content">{{yield}}</div>
-    {{/ember-tether}}
+    {{!-- {{/ember-tether}} --}}
   {{/ember-wormhole}}
 {{/if}}

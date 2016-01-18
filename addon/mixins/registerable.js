@@ -24,8 +24,6 @@ export default Ember.Mixin.create({
       let actionAcceptor;
       if (actionAcceptor = this.get('actionAcceptor')) {
         this.set('targetObject', actionAcceptor);
-
-        console.log(`setting action acceptor of ${this.element.tagName} to ${actionAcceptor.element.tagName}`);
         // Set our default action to be whatever the parent accepts
         let childActionName;
         if (childActionName = actionAcceptor.get('childActionName')) {

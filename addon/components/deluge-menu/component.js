@@ -6,7 +6,11 @@ import MenuBehaviour from '../../mixins/menu-behaviour';
 import ControlState from '../../mixins/control-state';
 import KeyBindings from '../../mixins/key-bindings';
 
-const { computed, isEmpty } = Ember;
+const {
+  computed,
+  isEmpty,
+  run: { next },
+} = Ember;
 
 function afterRender() {
   Ember.run.schedule('afterRender', ...arguments);
@@ -147,7 +151,9 @@ export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, 
         }
       }
 
-      this.sendAction('action', this.get('selectedItemValues'));
+      next(this, function() {
+        this.sendAction('action', this.get('selectedItemValues'));
+      });
     },
 
     registerItem(itemComponent) {
