@@ -128,7 +128,7 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   ],
 
   ariaRole: 'group',
-  hasPopUp: computed.oneWay('hasDropdown'),
+  hasPopUp: true,
 
   keyBindings: {
     esc: 'close',
