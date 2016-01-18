@@ -35,7 +35,6 @@ export default Ember.Component.extend(Registry, Registerable, KeyBindings, {
     },
 
     selectNext() {
-      console.log('down');
       let menu;
       if (menu = this.get('menu')) {
         menu.send('selectNext');
@@ -43,7 +42,6 @@ export default Ember.Component.extend(Registry, Registerable, KeyBindings, {
     },
 
     selectPrevious() {
-      console.log('up');
       let menu;
       if (menu = this.get('menu')) {
         menu.send('selectPrevious');

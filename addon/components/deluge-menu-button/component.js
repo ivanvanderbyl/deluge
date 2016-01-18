@@ -8,7 +8,12 @@ import KeyBindings from '../../mixins/key-bindings';
 import ControlState from '../../mixins/control-state';
 import computedStyle from 'ember-computed-style';
 
-const { inject, computed, run } = Ember;
+const {
+  inject,
+  computed,
+  run,
+  isPresent,
+} = Ember;
 
 export default Ember.Component.extend(ControlState, Registerable, Registry, KeyBindings, {
   layout: layout,
@@ -21,6 +26,8 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   destinationElementId: computed.oneWay('delugeDropdownService.destinationElementId'),
 
   renderInPlace: false,
+
+  registerableType: 'button',
 
   /**
    * Dropdown attachment basis.
@@ -59,24 +66,50 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   hasDropdown: computed.notEmpty('menu'),
 
   /**
-   * Alignment for top position.
+   * The orientation against which to align the menu dropdown
+   * vertically relative to the dropdown trigger.
    *
    * @type {String}
    */
   verticalAlign: 'top',
 
   /**
-   * Alignment for left position.
+   * The orientation against which to align the menu dropdown
+   * horizontally relative to the dropdown trigger.
    *
    * @type {String}
    */
   horizontalAlign: 'left',
 
-  registerableType: 'button',
-
+  /**
+   * A pixel value that will be added to the position calculated for the
+   * given `horizontalAlign`. Use a negative value to offset to the
+   * left, or a positive value to offset to the right.
+   *
+   * @type {Number}
+   */
   horizontalOffset: 0,
 
+  /**
+   * A pixel value that will be added to the position calculated for the
+   * given `verticalAlign`. Use a negative value to offset towards the
+   * top, or a positive value to offset towards the bottom.
+   *
+   * @type {Number}
+   */
   verticalOffset: 0,
+
+  /**
+   * Set to true to disable automatically closing the dropdown after
+   * a selection has been made.
+   */
+  ignoreSelect: false,
+
+  positionTarget: "button.trigger",
+
+  dropdownTarget: computed('elementId', function() {
+    return `#${this.get('elementId')} button.trigger`;
+  }),
 
   attributeBindings: [
     // Applies ARIA-HasPopup
@@ -92,28 +125,11 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   ariaRole: 'group',
   hasPopUp: computed.oneWay('hasDropdown'),
 
-  /**
-   * Set to true to disable automatically closing the dropdown after
-   * a selection has been made.
-   */
-  ignoreSelect: false,
-
   keyBindings: {
     esc: 'close',
     down: 'open',
     up: 'open',
   },
-
-  /**
-   * The public API we expose to sub components as the first block param.
-   *
-   * @type {Object}
-   */
-  publicAPI: {},
-
-  dropdownTarget: computed('elementId', function() {
-    return `#${this.get('elementId')} button.trigger`;
-  }),
 
   didInsertElement() {
     this.addGlobalEventHandlers();
@@ -127,7 +143,9 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
     window.addEventListener('scroll', this.handleRepositioningEvent.bind(this));
     window.addEventListener('resize', this.handleRepositioningEvent.bind(this));
 
-    // document.addEventListener('click', this.handleRootClick.bind(this));
+    // document.addEventListener('click', (event) => {
+    //   console.log(event.path.indexOf(this.element));
+    // });
   },
 
   removeGlobalEventHandlers() {
@@ -139,17 +157,26 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   handleRepositioningEvent() {
     if (this.get('isOpen')) {
       run.next(this, function() {
-        console.log('Tether.position');
-        Tether.position();
+
       });
     }
 
     // run.throttle(this, 'repositionDropdownContent', 60, true);
   },
 
-  _positionRect: computed(function() {
-    return this.element.getBoundingClientRect();
-  }).volatile(),
+  /**
+   * The bounding rect of the position target.
+   *
+   * @return {PositionRect}
+   */
+  _positionRect: computed('element', 'positionTarget', function() {
+    const positionTarget = this.get('positionTarget');
+    if (isPresent(positionTarget)) {
+      return this.element.querySelector(positionTarget).getBoundingClientRect();
+    }else{
+      return this.element.getBoundingClientRect();
+    }
+  }),
 
   /**
    * The horizontal offset value used to position the dropdown.
@@ -186,31 +213,21 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   computedPositionStyle: computedStyle('positionStyles'),
 
   positionStyles: Ember.computed(function() {
-    // const { horizontalAlign, verticalAlign } = this.getProperties('horizontalAlign', 'verticalAlign');
-    // const { _horizontalAlignTargetValue: horizontal, _verticalAlignTargetValue: vertical } = this.getProperties('_horizontalAlignTargetValue', '_verticalAlignTargetValue');
+    const { horizontalAlign, verticalAlign } = this.getProperties('horizontalAlign', 'verticalAlign');
+    const { _horizontalAlignTargetValue: horizontal, _verticalAlignTargetValue: vertical } = this.getProperties('_horizontalAlignTargetValue', '_verticalAlignTargetValue');
     // let styleObject = {
-    //   position: 'absolute',
     // };
-    // styleObject[horizontalAlign] = horizontal;
-    // styleObject[verticalAlign] = vertical;
 
     let styleObject = {
+      position: 'absolute',
       width: Math.ceil(this.get('_positionRect').width),
     };
 
+    styleObject[horizontalAlign] = horizontal;
+    styleObject[verticalAlign] = vertical;
+
     return styleObject;
   }),
-
-  didInitAttrs() {
-    this.set('publicAPI', {
-      isOpen: false,
-      // actions: {
-      //   open: this.open.bind(this),
-      //   close: this.close.bind(this),
-      //   toggle: this.toggle.bind(this),
-      // }
-    });
-  },
 
   dropdownAlignment: computed('verticalAlign', {
     get() {
@@ -250,6 +267,7 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
     if (this.get('disabled')) { return; }
     this.set('isOpen', true);
     this.handleRepositioningEvent();
+    this.element.offsetWidth = this.element.offsetWidth;
   },
 
   close() {
