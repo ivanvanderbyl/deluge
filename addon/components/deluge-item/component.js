@@ -1,13 +1,12 @@
 import Ember from 'ember';
 import layout from './template';
-import Registerable from '../../mixins/registerable';
 import KeyBindings from '../../mixins/key-bindings';
 import ControlState from '../../mixins/control-state';
 
 const { computed } = Ember;
 const { oneWay } = computed;
 
-export default Ember.Component.extend(ControlState, Registerable, KeyBindings, {
+export default Ember.Component.extend(ControlState, KeyBindings, {
   layout: layout,
 
   tagName: 'deluge-item',
@@ -24,14 +23,24 @@ export default Ember.Component.extend(ControlState, Registerable, KeyBindings, {
 
   ariaRole: 'option',
 
-  registerableType: 'item',
-
   keyBindings: {
     enter: 'activateItem',
     space: 'activateItem',
   },
 
+  /**
+   * Indicates the disabled state of the item
+   *
+   * @type {Boolean}
+   */
   isDisabled: true,
+
+  /**
+   * A reference to the parent menu container, if used.
+   *
+   * @type {DelugeMenuComponent}
+   */
+  menu: null,
 
   /**
    * Selected items of parent component, usually a menu or a list.
@@ -73,6 +82,14 @@ export default Ember.Component.extend(ControlState, Registerable, KeyBindings, {
   activate() {
     if (this.get('disabled')) { return; }
     this.sendAction('action', this);
+  },
+
+  didInsertElement() {
+    this.sendAction('on-add', this);
+  },
+
+  willDestroyElement() {
+
   },
 
   actions: {

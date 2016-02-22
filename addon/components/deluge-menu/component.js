@@ -1,7 +1,5 @@
 import Ember from 'ember';
 import layout from './template';
-import Registerable from '../../mixins/registerable';
-import Registry from '../../mixins/registry';
 import MenuBehaviour from '../../mixins/menu-behaviour';
 import ControlState from '../../mixins/control-state';
 import KeyBindings from '../../mixins/key-bindings';
@@ -16,7 +14,7 @@ function afterRender() {
   Ember.run.schedule('afterRender', ...arguments);
 }
 
-export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, Registerable, Registry, {
+export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, {
   layout: layout,
   tagName: 'deluge-menu',
 
@@ -156,11 +154,11 @@ export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, 
       });
     },
 
-    registerItem(itemComponent) {
+    addItem(itemComponent) {
       this.get('menuItems').addObject(itemComponent);
     },
 
-    deregisterItem(itemComponent) {
+    removeItem(itemComponent) {
       this.get('menuItems').removeObject(itemComponent);
     },
 

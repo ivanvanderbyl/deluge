@@ -1,115 +1,35 @@
 <h2 id="title">Deluge UI Samples</h2>
 
 <div class="Group">
-  <h2><pre>deluge-menu-button</pre></h2>
-
-  <button onclick={{action "toggleDisabled"}}>Disable Menu</button>
-
-  {{#deluge-menu-button disabled=mainMenuDisabled as |button|}}
-    {{#deluge-dropdown close=button.close}}
-      Dropdown Content
-    {{/deluge-dropdown}}
-  {{else}}
-    Please Select...
-  {{/deluge-menu-button}}
-</div>
-
-<div class="Group">
   <h2><pre>deluge-dropdown-menu</pre></h2>
 
   {{#deluge-dropdown-menu
-    ignoreSelect=true
     selection=primarySelectedItem
-    selection-changed=(action "primaryAction")
-    label="Select Item..." as |dropdown selection|}}
-    {{#deluge-menu dropdown=dropdown selection=selection as |menu selectedItem|}}
-      {{#deluge-item value="project-1"}}
+    action=(action "primaryAction")
+    label="Select Item..." as |dropdown|}}
+    {{#dropdown.menu as |menu|}}
+      {{#menu.item value="project-1"}}
         <div class="deluge-item-body layout vertical center-justified" two-line>
           <div>Sample Project</div>
           <div secondary>Last Flooded Today 12:56 PM</div>
         </div>
-      {{/deluge-item}}
-      {{#deluge-item value="project-2"}}
+      {{/menu.item}}
+      {{menu.item value="project-2"}}
         <div class="deluge-item-body layout vertical center-justified" two-line>
           <div>Flood API</div>
           <div secondary>Last Flooded Yesterday 2:01 AM</div>
         </div>
-      {{/deluge-item}}
-      {{#deluge-item value="project-3"}}
+      {{/menu.item}}
+      {{#menu.item value="project-3"}}
         <div class="deluge-item-body layout vertical center-justified" two-line>
           <div>Project Seahawk</div>
           <div secondary>Last Flooded last Wednesday</div>
         </div>
-      {{/deluge-item}}
+      {{/menu.item}}
 
       <hr>
-      {{deluge-item label="New Project..." value="new"}}
-    {{/deluge-menu}}
+
+      {{menu.item label="New Project..." value="new"}}
+    {{/dropdown.menu}}
   {{/deluge-dropdown-menu}}
-</div>
-
-<div class="Group">
-  <h2>
-    <pre>deluge-menu</pre>
-  </h2>
-
-  <div><label>{{input type="checkbox" checked=allowMultiple}} Allow Multiple</label></div>
-
-  <div role="list" class="list">
-    {{#deluge-menu
-      multiple=allowMultiple
-      selected=primarySelectedItem
-      selection-changed=(action "primaryAction") as |menu|}}
-
-      {{#deluge-item value="project-1"}}
-        <div class="deluge-item-body layout vertical center-justified" two-line>
-          <div>Flood Sample Project</div>
-          <div secondary>Last Flooded on Tuesday</div>
-        </div>
-      {{/deluge-item}}
-
-      {{#deluge-item value="project-2"}}
-        <div class="deluge-item-body layout vertical center-justified" two-line>
-          <div>Flood API</div>
-          <div secondary>Last Flooded 2 hours ago</div>
-        </div>
-      {{/deluge-item}}
-
-      {{deluge-item label="Item 1" value="1"}}
-      {{deluge-item label="Item 2" value="2"}}
-      {{deluge-item label="Item 3" value="3"}}
-      {{deluge-item label="Item 4" value="4" disabled=true}}
-      {{deluge-item label="Item 5" value="5"}}
-    {{/deluge-menu}}
-  </div>
-
-  <div role="list" class="list">
-    {{#deluge-menu
-      multiple=allowMultiple
-      selected=primarySelectedItem
-      selection-changed=(action "primaryAction") as |menu|}}
-      {{deluge-item label="Item 2" value="2" disabled=false}}
-      {{deluge-item label="Item 1" value="1" disabled=true}}
-      {{deluge-item label="Item 3" value="3" disabled=false}}
-      {{deluge-item label="Item 4" value="4" disabled=true}}
-      {{deluge-item label="Item 5" value="5"}}
-    {{/deluge-menu}}
-  </div>
-</div>
-
-<div class="Group">
-  <h2>
-    <pre>deluge-item</pre>
-  </h2>
-  <div role="list" class="list">
-    {{deluge-item label="Item 1" value="1"}}
-    {{deluge-item label="Disabled Item" value="1" disabled=true}}
-    {{#deluge-item}}
-      <div class="deluge-item-body layout vertical center-justified" two-line>
-        <div>Primary Text for line 1</div>
-        <div secondary>Secondary Text for line 2</div>
-      </div>
-    {{/deluge-item}}
-    {{deluge-item label="Item 1 with action" value="1" action="primaryAction"}}
-  </div>
 </div>

@@ -1,12 +1,11 @@
 import Ember from 'ember';
 import layout from './template';
-import Registry from '../../mixins/registry';
 import ControlState from '../../mixins/control-state';
 import KeyBindings from '../../mixins/key-bindings';
 
 const { run: { later }} = Ember;
 
-export default Ember.Component.extend(Registry, ControlState, KeyBindings, {
+export default Ember.Component.extend(ControlState, KeyBindings, {
   layout: layout,
 
   tagName: 'deluge-dropdown-menu',
@@ -32,6 +31,8 @@ export default Ember.Component.extend(Registry, ControlState, KeyBindings, {
    * @type {String}
    */
   childActionName: 'itemSelected',
+
+  multiple: false,
 
   keyBindings: {
     'esc': 'close',
@@ -95,12 +96,12 @@ export default Ember.Component.extend(Registry, ControlState, KeyBindings, {
       later(this, this.close, 125);
     },
 
-    registerButton(buttonComponent) {
-      this.set('button', buttonComponent);
-    },
+    // registerButton(buttonComponent) {
+    //   this.set('button', buttonComponent);
+    // },
 
-    deregisterButton() {
-      this.set('button', null);
-    },
+    // deregisterButton() {
+    //   this.set('button', null);
+    // },
   }
 });

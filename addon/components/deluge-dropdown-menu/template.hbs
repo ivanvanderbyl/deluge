@@ -1,11 +1,14 @@
 {{#deluge-menu-button
   disabled=disabled
+  multiple=multiple
   ignoreSelect=ignoreSelect
   selection=selection
   triggerAttachment=triggerAttachment
   dropdownAttachment=dropdownAttachment
   as |button|}}
-  {{yield selection}}
+  {{yield (hash
+    menu=(component "deluge-menu" dropdown=this)
+  )}}
 {{else}}
   {{#if (hasBlock "inverse")}}
     {{yield to="inverse"}}

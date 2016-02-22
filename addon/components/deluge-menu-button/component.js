@@ -2,8 +2,6 @@
 
 import Ember from 'ember';
 import layout from './template';
-import Registry from '../../mixins/registry';
-import Registerable from '../../mixins/registerable';
 import KeyBindings from '../../mixins/key-bindings';
 import ControlState from '../../mixins/control-state';
 import computedStyle from 'ember-computed-style';
@@ -15,7 +13,7 @@ const {
   isPresent,
 } = Ember;
 
-export default Ember.Component.extend(ControlState, Registerable, Registry, KeyBindings, {
+export default Ember.Component.extend(ControlState, KeyBindings, {
   layout: layout,
   tagName: 'deluge-menu-button',
   classNames: ['deluge-menu-button'],
@@ -27,7 +25,7 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
 
   renderInPlace: false,
 
-  registerableType: 'button',
+  multiple: false,
 
   /**
    * Dropdown attachment basis.
@@ -319,32 +317,32 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
   actions: {
     // Registers a sub-component dropdown with us. This indicates that it is actually
     // in the DOM and we can give it focus.
-    registerDropdown(dropdownComponent) {
-      this.set('dropdown', dropdownComponent);
-      this.focusDropdown();
-    },
+    // registerDropdown(dropdownComponent) {
+    //   this.set('dropdown', dropdownComponent);
+    //   this.focusDropdown();
+    // },
 
-    registerMenu(menuComponent) {
-      this.set('menu', menuComponent);
+    // registerMenu(menuComponent) {
+    //   this.set('menu', menuComponent);
 
-      menuComponent.send('selectItemsByValue', this.get('selection'));
+    //   menuComponent.send('selectItemsByValue', this.get('selection'));
 
-      run.schedule('afterRender', this, function() {
-        menuComponent.element.focus();
-      });
-    },
+    //   run.schedule('afterRender', this, function() {
+    //     menuComponent.element.focus();
+    //   });
+    // },
 
-    deregisterMenu() {
-      this.set('menu', null);
-    },
+    // deregisterMenu() {
+    //   this.set('menu', null);
+    // },
 
     /**
      * Deregister dropdown component. This indicates it will be removed from the
      * DOM next.
      */
-    deregisterDropdown() {
-      this.set('dropdown', null);
-    },
+    // deregisterDropdown() {
+    //   this.set('dropdown', null);
+    // },
 
     /**
      * Propagates selection from dropdown menu.
