@@ -270,7 +270,9 @@ export default Ember.Component.extend(ControlState, Registerable, Registry, KeyB
     if (this.get('disabled')) { return; }
     this.set('isOpen', true);
     this.handleRepositioningEvent();
-    this.element.offsetWidth = this.element.offsetWidth;
+
+    /*jshint -W030 */
+    this.element.offsetWidth;
   },
 
   close() {
