@@ -33,3 +33,32 @@
     {{/dropdown.menu}}
   {{/deluge-dropdown-menu}}
 </div>
+
+<div class="Group">
+  <h2><pre>deluge-menu</pre></h2>
+
+  {{#deluge-menu as |menu|}}
+    {{#menu.item value="project-1"}}
+      <div class="deluge-item-body layout vertical center-justified" two-line>
+        <div>Sample Project</div>
+        <div secondary>Last Flooded Today 12:56 PM</div>
+      </div>
+    {{/menu.item}}
+    {{menu.item value="project-2"}}
+      <div class="deluge-item-body layout vertical center-justified" two-line>
+        <div>Flood API</div>
+        <div secondary>Last Flooded Yesterday 2:01 AM</div>
+      </div>
+    {{/menu.item}}
+    {{#menu.item value="project-3"}}
+      <div class="deluge-item-body layout vertical center-justified" two-line>
+        <div>Project Seahawk</div>
+        <div secondary>Last Flooded last Wednesday</div>
+      </div>
+    {{/menu.item}}
+
+    <hr>
+
+    {{menu.item label="New Project..." value="new"}}
+  {{/deluge-menu}}
+</div>

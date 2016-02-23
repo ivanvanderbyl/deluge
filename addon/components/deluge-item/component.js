@@ -89,7 +89,7 @@ export default Ember.Component.extend(ControlState, KeyBindings, {
   },
 
   willDestroyElement() {
-
+    this.sendAction('on-remove', this);
   },
 
   actions: {
