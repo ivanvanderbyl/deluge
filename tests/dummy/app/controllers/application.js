@@ -5,6 +5,8 @@ export default Ember.Controller.extend({
 
   allowMultiple: false,
 
+  ignoreSelect: false,
+
   primarySelectedItem: ['new'],
 
   primarySelectedItemDidChange: Ember.observer('primarySelectedItem.[]', function() {
