@@ -28,12 +28,7 @@ export default Ember.Component.extend(ControlState, KeyBindings, {
     space: 'activateItem',
   },
 
-  /**
-   * Indicates the disabled state of the item
-   *
-   * @type {Boolean}
-   */
-  isDisabled: true,
+  disabled: false,
 
   /**
    * A reference to the parent menu container, if used.
@@ -85,11 +80,15 @@ export default Ember.Component.extend(ControlState, KeyBindings, {
   },
 
   didInsertElement() {
-    this.sendAction('on-add', this);
+    this.sendAction('add', this);
   },
 
   willDestroyElement() {
-    this.sendAction('on-remove', this);
+    this.sendAction('remove', this);
+  },
+
+  contentWidth() {
+    // this.element
   },
 
   actions: {

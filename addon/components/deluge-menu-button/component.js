@@ -114,6 +114,14 @@ export default Ember.Component.extend(ControlState, KeyBindings, {
     return `#${this.get('elementId')} button.trigger`;
   }),
 
+  tetherConstraints: [
+    {
+      to: 'scrollParent',
+      attachment: 'together',
+      pin: true
+    }
+  ],
+
   attributeBindings: [
     // Applies ARIA-HasPopup
     'hasPopUp:aria-haspopup',
@@ -216,16 +224,16 @@ export default Ember.Component.extend(ControlState, KeyBindings, {
   computedPositionStyle: computedStyle('positionStyles'),
 
   positionStyles: Ember.computed(function() {
-    const { horizontalAlign, verticalAlign } = this.getProperties('horizontalAlign', 'verticalAlign');
-    const { _horizontalAlignTargetValue: horizontal, _verticalAlignTargetValue: vertical } = this.getProperties('_horizontalAlignTargetValue', '_verticalAlignTargetValue');
+    // const { horizontalAlign, verticalAlign } = this.getProperties('horizontalAlign', 'verticalAlign');
+    // const { _horizontalAlignTargetValue: horizontal, _verticalAlignTargetValue: vertical } = this.getProperties('_horizontalAlignTargetValue', '_verticalAlignTargetValue');
 
     let styleObject = {
-      position: 'absolute',
+      // position: 'absolute',
       width: Math.ceil(this.get('_positionRect').width),
     };
 
-    styleObject[horizontalAlign] = horizontal;
-    styleObject[verticalAlign] = vertical;
+    // styleObject[horizontalAlign] = horizontal;
+    // styleObject[verticalAlign] = vertical;
 
     return styleObject;
   }),

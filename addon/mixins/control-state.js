@@ -31,10 +31,10 @@ export default Ember.Mixin.create({
     return this.get('disabled') ? 'disabled' : null;
   }),
 
-  acceptFocus: on('focusIn', function(event) {
-    if (this.get('disabled')) {
-      event.preventDefault();
-      event.target.blur();
-    }
-  }),
+  // acceptFocus: on('focusIn', function(event) {
+  //   if (this.get('disabled')) {
+  //     event.preventDefault();
+  //     this.element.blur();
+  //   }
+  // }),
 });

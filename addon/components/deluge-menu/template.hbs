@@ -1,8 +1,10 @@
 {{yield (hash
+  width=width
+  height=height
   item=(component "deluge-item"
         menu=this
-        isDisabled=this.isDisabled
+        disabled=this.disabled
         action=(action "itemSelected")
-        on-add=(action "addItem")
-        on-remove=(action "removeItem"))
+        add=(action "addItem")
+        remove=(action "removeItem"))
 )}}

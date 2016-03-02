@@ -29,32 +29,3 @@ deluge-menu {
     background: $divider-color;
   }
 }
-
-// .selectable-content > .iron-selected {
-//   font-weight: bold;
-//   // @apply(--paper-menu-selected-item);
-// }
-// .selectable-content > [disabled] {
-//   color: var(--paper-menu-disabled-color, --disabled-text-color);
-// }
-// .selectable-content > *:focus {
-//   position: relative;
-//   outline: 0;
-//   // @apply(--paper-menu-focused-item);
-// }
-// .selectable-content > *:focus:after {
-//   // fit
-//   position: absolute;
-//   top: 0;
-//   right: 0;
-//   bottom: 0;
-//   left: 0;
-//   // @apply(--layout-fit);
-//   background: currentColor;
-//   opacity: var(--dark-divider-opacity);
-//   content: '';
-//   // @apply(--paper-menu-focused-item-after);
-// }
-// .selectable-content > *[colored]:focus:after {
-//   opacity: 0.26;
-// }

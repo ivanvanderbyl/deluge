@@ -1,19 +1,15 @@
 import Ember from 'ember';
 import layout from './template';
-import Registerable from '../../mixins/registerable';
 import KeyBindings from '../../mixins/key-bindings';
-import Registry from '../../mixins/registry';
 
-const { computed } = Ember;
+const { computed, run: { next } } = Ember;
 
-export default Ember.Component.extend(Registry, Registerable, KeyBindings, {
+export default Ember.Component.extend(KeyBindings, {
   layout: layout,
 
   classNames: ['deluge-dropdown'],
 
   attributeBindings: ['tabIndex:tabindex'],
-
-  registerableType: 'dropdown',
 
   button: null,
 
@@ -48,18 +44,18 @@ export default Ember.Component.extend(Registry, Registerable, KeyBindings, {
       }
     },
 
-    registerMenu(menuComponent) {
-      this.set('menu', menuComponent);
-      this.focusMenu();
-    },
+    // registerMenu(menuComponent) {
+    //   this.set('menu', menuComponent);
+    //   this.focusMenu();
+    // },
 
-    deregisterMenu() {
-      this.set('menu', null);
-    }
+    // deregisterMenu() {
+    //   this.set('menu', null);
+    // }
   },
 
   focusMenu() {
-    Ember.run.next(this, function(){
+    next(this, function(){
       let menu;
       if (menu = this.get('menu')) {
         menu.element.focus();

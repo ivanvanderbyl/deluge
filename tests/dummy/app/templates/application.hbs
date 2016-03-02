@@ -3,48 +3,88 @@
 <div class="Group">
   <h2><pre>deluge-dropdown-menu</pre></h2>
 
-  {{#deluge-dropdown-menu
-    selection=primarySelectedItem
-    action=(action "primaryAction")
-    label="Select Item..." as |dropdown|}}
-    {{#dropdown.menu as |menu|}}
-      {{#menu.item value="project-1"}}
-        <div class="deluge-item-body layout vertical center-justified" two-line>
-          <div>Sample Project</div>
-          <div secondary>Last Flooded Today 12:56 PM</div>
-        </div>
-      {{/menu.item}}
-      {{menu.item value="project-2"}}
-        <div class="deluge-item-body layout vertical center-justified" two-line>
-          <div>Flood API</div>
-          <div secondary>Last Flooded Yesterday 2:01 AM</div>
-        </div>
-      {{/menu.item}}
-      {{#menu.item value="project-3"}}
-        <div class="deluge-item-body layout vertical center-justified" two-line>
-          <div>Project Seahawk</div>
-          <div secondary>Last Flooded last Wednesday</div>
-        </div>
-      {{/menu.item}}
+  <div>
+    <label>
+      {{input type="checkbox" checked=allowMultiple}}
+      <code>allowMultiple</code>
+    </label>
 
-      <hr>
+    <label>
+      {{input type="checkbox" checked=mainMenuDisabled}}
+      <code>disabled</code>
+    </label>
 
-      {{menu.item label="New Project..." value="new"}}
-    {{/dropdown.menu}}
-  {{/deluge-dropdown-menu}}
+    <label>
+      {{input type="checkbox" checked=ignoreSelect}}<code>ignoreSelect</code>
+    </label>
+
+  </div>
+
+  <header>
+    {{#deluge-dropdown-menu
+      selection=primarySelectedItem
+      multiple=allowMultiple
+      disabled=mainMenuDisabled
+      ignoreSelect=ignoreSelect
+      action=(action "primaryAction")
+      label="Select Item..."
+      as |menu|}}
+        {{#menu.item value="project-1"}}
+          <div class="deluge-item-body layout vertical center-justified" two-line>
+            <div>Sample Project</div>
+            <div secondary>Last Flooded Today 12:56 PM</div>
+          </div>
+        {{/menu.item}}
+        {{#menu.item value="project-2"}}
+          <div class="deluge-item-body layout vertical center-justified" two-line>
+            <div>Flood API</div>
+            <div secondary>Last Flooded Yesterday 2:01 AM</div>
+          </div>
+        {{/menu.item}}
+        {{#menu.item value="project-3"}}
+          <div class="deluge-item-body layout vertical center-justified" two-line>
+            <div>Project Seahawk</div>
+            <div secondary>Last Flooded last Wednesday</div>
+          </div>
+        {{/menu.item}}
+
+        <hr>
+
+        {{menu.item label="New Project..." value="new"}}
+    {{else}}
+      {{if primarySelectedItem primarySelectedItem "Empty"}}
+    {{/deluge-dropdown-menu}}
+  </header>
+
 </div>
 
 <div class="Group">
   <h2><pre>deluge-menu</pre></h2>
 
-  {{#deluge-menu as |menu|}}
+  <label>
+    {{input type="checkbox" checked=allowMultiple}}
+    Allow multiple selection
+  </label>
+
+  <label>
+    {{input type="checkbox" checked=mainMenuDisabled}}
+    Disabled
+  </label>
+
+
+  {{#deluge-menu
+      multiple=allowMultiple
+      selection=primarySelectedItem
+      disabled=mainMenuDisabled
+      action=(action "primaryAction")
+    as |menu|}}
     {{#menu.item value="project-1"}}
       <div class="deluge-item-body layout vertical center-justified" two-line>
         <div>Sample Project</div>
         <div secondary>Last Flooded Today 12:56 PM</div>
       </div>
     {{/menu.item}}
-    {{menu.item value="project-2"}}
+    {{#menu.item value="project-2" disabled=true}}
       <div class="deluge-item-body layout vertical center-justified" two-line>
         <div>Flood API</div>
         <div secondary>Last Flooded Yesterday 2:01 AM</div>
@@ -61,4 +101,9 @@
 
     {{menu.item label="New Project..." value="new"}}
   {{/deluge-menu}}
+
+  <div>
+    Selection:
+    <pre>{{if primarySelectedItem primarySelectedItem "Empty"}}</pre>
+  </div>
 </div>

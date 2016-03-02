@@ -18,24 +18,24 @@ export default Ember.Component.extend(ControlState, KeyBindings, {
 
   autocomplete: 'none',
 
+  isOpen: false,
+
+  ignoreSelect: false,
+
   /**
-   * Indicates that we will handle the default action of a child element
+   * Controls the rendering of the wormhole. If set to true,
+   * disables the wormhole.
    *
    * @type {Boolean}
    */
-  acceptsChildActions: true,
-
-  /**
-   * Name of the action which handles the item activate action
-   *
-   * @type {String}
-   */
-  childActionName: 'itemSelected',
+  renderInPlace: false,
 
   multiple: false,
 
   keyBindings: {
     'esc': 'close',
+    'up': 'open',
+    'down': 'open',
   },
 
   didInsertElement() {
@@ -69,15 +69,17 @@ export default Ember.Component.extend(ControlState, KeyBindings, {
   selection: Ember.A(),
 
   open() {
-    const menuButton = this.get('button');
-    if (!menuButton) { return; }
-    menuButton.send('open');
+    this.set('isOpen', true);
+    // const menuButton = this.get('button');
+    // if (!menuButton) { return; }
+    // menuButton.send('open');
   },
 
   close() {
-    const menuButton = this.get('button');
-    if (!menuButton) { return; }
-    menuButton.send('close');
+    this.set('isOpen', false);
+    // const menuButton = this.get('button');
+    // if (!menuButton) { return; }
+    // menuButton.send('close');
   },
 
   click({target}) {
@@ -92,16 +94,10 @@ export default Ember.Component.extend(ControlState, KeyBindings, {
     },
 
     itemSelected(values) {
-      this.sendAction('selection-changed', values);
-      later(this, this.close, 125);
+      this.sendAction('action', values);
+      if (!this.get('ignoreSelect')) {
+        // later(this, this.close, 125);
+      }
     },
-
-    // registerButton(buttonComponent) {
-    //   this.set('button', buttonComponent);
-    // },
-
-    // deregisterButton() {
-    //   this.set('button', null);
-    // },
   }
 });

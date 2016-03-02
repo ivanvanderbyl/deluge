@@ -1,14 +1,22 @@
 {{#deluge-menu-button
+  menu=this
+  isOpen=isOpen
   disabled=disabled
-  multiple=multiple
   ignoreSelect=ignoreSelect
-  selection=selection
   triggerAttachment=triggerAttachment
   dropdownAttachment=dropdownAttachment
+  renderInPlace=renderInPlace
   as |button|}}
-  {{yield (hash
-    menu=(component "deluge-menu" dropdown=this)
-  )}}
+
+  {{#deluge-menu
+    dropdown=this
+    disabled=disabled
+    multiple=multiple
+    selection=selection
+    action=(action "itemSelected")
+  as |menu|}}
+    {{yield menu}}
+  {{/deluge-menu}}
 {{else}}
   {{#if (hasBlock "inverse")}}
     {{yield to="inverse"}}

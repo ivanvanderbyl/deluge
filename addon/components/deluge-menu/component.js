@@ -6,6 +6,7 @@ import KeyBindings from '../../mixins/key-bindings';
 
 const {
   computed,
+  observer,
   isEmpty,
   run: { next },
 } = Ember;
@@ -46,40 +47,23 @@ export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, 
    */
   init() {
     this._super(...arguments);
-    this.set('selectedItems', Ember.A());
-    this.set('menuItems', Ember.A());
-    this.set('focusIndex', -1);
+    this.selectedItems = Ember.A();
+    this.menuItems = Ember.A();
+    this.focusIndex = -1;
   },
-
-  /**
-   * Our name in reference to child and parent registry.
-   *
-   * Example:
-   *   On the child we'll be registered as `menu`, whereas on the parent we'll
-   *   call a registry action named `registerMenu` and `deregisterMenu`.
-   *
-   * @type {String}
-   */
-  registerableType: 'menu',
-
-  /**
-   * Indicates that we will handle the default action of a child element
-   *
-   * @type {Boolean}
-   */
-  acceptsChildActions: true,
-
-  /**
-   * Name of the action which handles the item activate action
-   *
-   * @type {String}
-   */
-  childActionName: 'itemSelected',
 
   keyBindings: {
     down: 'selectNext',
     up: 'selectPrevious',
   },
+
+  disabledDidChange: observer('disabled', function() {
+    const disabled = this.get('disabled');
+    if (disabled) {
+      this.set('selectedItems', Ember.A());
+      this.sendDefaultAction();
+    }
+  }),
 
   /**
    * Menu items registered once we render
@@ -87,6 +71,13 @@ export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, 
    * @type {Array}
    */
   menuItems: Ember.A(),
+
+  // menuItemsTotalWidth: computed('menuItems.[]', {
+  //   get() {
+  //     const menuItems = this.get('menuItems');
+
+  //   }
+  // }),
 
   focusIn() {
     afterRender(this, function() {
@@ -111,9 +102,29 @@ export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, 
     return this.get('menuItems').indexOf(this.get('selectedItem'));
   }),
 
-  selectedItemValues: computed('selectedItems.[]', function() {
-    return this.get('selectedItems').map((item) => item.get('value'));
+  selectedItemValues: computed('selectedItems.[]', {
+    get() {
+      return this.get('selectedItems').map((item) => item.get('value'));
+    },
+
+    // set(key, value) {
+    //   const items = this.get('menuItems').filter((item) => {
+    //     return value.indexOf(item.get('value')) > -1;
+    //   });
+    //   console.log(this.get('menuItems.length'));
+    //   Ember.set(this, 'selectedItems', items);
+
+    //   return value;
+    // }
   }),
+
+  // selection: Ember.computed.alias('selectedItemValues'),
+
+  sendDefaultAction() {
+    next(this, function() {
+      this.sendAction('action', this.get('selectedItemValues'));
+    });
+  },
 
   actions: {
     selectNext() {
@@ -149,9 +160,7 @@ export default Ember.Component.extend(KeyBindings, ControlState, MenuBehaviour, 
         }
       }
 
-      next(this, function() {
-        this.sendAction('action', this.get('selectedItemValues'));
-      });
+      this.sendDefaultAction();
     },
 
     addItem(itemComponent) {
